@@ -49,9 +49,11 @@ void delay(unsigned int times){
 
 void loop(){
 
-    //delay(10);
-    uart.put_s(uart.get_s());
+    delay(1);
+   // uart.put_s(uart.get_s());
+    uart.put(uart.get_s());
     //uart.put_s(uart.getLine());
+    /*
     switch (state)   {
         case OFF:
             if(botao == 1){
@@ -82,9 +84,11 @@ void loop(){
         default:
             break;
         }
+        */
 }
 
 int main(){
    setup();
     while(true) loop();
+
 }

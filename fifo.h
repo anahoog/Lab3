@@ -1,20 +1,18 @@
 #ifndef FIFO_H
 #define	FIFO_H
 
-template <typename T> class fifo {
+template <typename T, int cap> class fifo {
 
     private:
-        unsigned int N, cap;
-        T * buffer;
+        unsigned int N;
+        T buffer[cap];
         unsigned int inicio, fim;
     
     public:
-        fifo(unsigned int max_itens){
-            cap = max_itens;
+        fifo(){
 	        N = 0;
 	        inicio = 0;
             fim = 0;
-            buffer = new T[cap];
         }
        
         ~fifo(){
@@ -22,7 +20,7 @@ template <typename T> class fifo {
         }
        
         void enfileira(const T & algo){
-            if(not cheia()){
+            if(!cheia()){
                 buffer[fim]=algo;
                 fim++;
                 N++;    
@@ -34,26 +32,44 @@ template <typename T> class fifo {
         }
         
         T desenfileira(){
-            if(not vazia()){
-                T* desen=buffer[inicio];
+            T desen;
+            if(!vazia()){
+                desen=buffer[inicio];
                 inicio ++;
                 N--;
                     if(inicio==cap){
                         inicio=0;
                     }
-                return desen;
             }
+            return desen;
         }
         
-        bool vazia() const{
+        bool vazia() {
             if(N==0){
     	        return true;
-	        }
+	        }else{
+                return false;
+            }
         }
 
         bool cheia() const{
             return N==cap;
         }
+
+    void enfileira_uart(const T & algo){
+        buffer[fim]=algo;
+        fim++;
+
+            if(!cheia()){
+                N++;       
+            }
+            else{
+                inicio++;
+            }
+            if(inicio == cap) inicio=0;
+            if(fim == cap) fim =0;
+        }
+
 };
 
 #endif	/* FIFO_H */

@@ -1,5 +1,6 @@
 #ifndef __UART_H__
 #define __UART_H__
+#include "fifo.h"
 
 class UART
 {
@@ -13,13 +14,14 @@ class UART
         
 
     public:
-             
+        static fifo <char, 10> buffer;
         UART( long u);
         ~UART(); 
         char get_s();
-        //char getLine();
+        void put(const char c);
         void put_s(const char c);
         void puts_s(const char *c);
+        static void tratar_int();
         
 
 
